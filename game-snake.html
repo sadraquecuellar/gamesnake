@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Game Snake</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='style.css'>
+    <style>
+        div#placar {
+            background-color: rgb(10, 86, 148);
+            width: 400px;
+            height: 50px;
+            margin-bottom: 10px;
+            text-align: center;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="placar">
+        <h1 id="score">Score: 0</h1>
+    </div>
+    <div id="game">
+        <canvas id="gc" width="400" height="400"></canvas>
+    </div>
+
+</body>
+
+</html>
+
+
+<script>
+    window.onload = function () {
+        canv = document.getElementById("gc");
+        ctx = canv.getContext("2d");
+        document.addEventListener("keydown", keyPush);
+        setInterval(game, 1000 / 15);
+        ax = Math.floor(Math.random() * tc);
+        ay = Math.floor(Math.random() * tc);
+        placar = window.document.getElementById('score')
+        placar.innerText = 'Score: 0'
+
+    }
+    px = py = 10;
+    gs = tc = 20;//size
+    ax = ay = 10;
+    xv = yv = 0;
+    trail = [];
+    tail = 5;
+    score = 0;
+
+
+    function game() {
+        px += xv;
+        py += yv;
+        if (px < 0) {
+            px = tc - 1;
+        }
+        if (px > tc - 1) {
+            px = 0;
+        }
+        if (py < 0) {
+            py = tc - 1;
+        }
+        if (py > tc - 1) {
+            py = 0;
+        }
+
+        //game background
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canv.width, canv.height);
+
+
+        //snake
+        ctx.fillStyle = "lime";
+        for (var i = 0; i < trail.length; i++) {
+            ctx.fillRect(trail[i].x * gs, trail[i].y * gs, gs - 2, gs - 2);
+            //snake colision yourself
+            //lose
+            if (trail[i].x == px && trail[i].y == py) {
+                tail = 5;
+                score = 0;
+                placar.innerText = `Score: ${score}`
+            }
+        }
+        trail.push({ x: px, y: py });
+        while (trail.length > tail) {
+            trail.shift();
+        }
+
+
+        //eat apple
+        if (ax == px && ay == py) {
+            tail++;
+            ax = Math.floor(Math.random() * tc);
+            ay = Math.floor(Math.random() * tc);
+            score++;
+            placar.innerText = `Score: ${score}`
+
+        }
+
+        //apple
+        ctx.fillStyle = "red";
+        ctx.fillRect(ax * gs, ay * gs, gs - 2, gs - 2);
+    }
+
+    // arrows keyboard
+    function keyPush(evt) {
+        switch (evt.keyCode) {
+            case 37:
+                xv = -1; yv = 0;
+                break;
+            case 38:
+                xv = 0; yv = -1;
+                break;
+            case 39:
+                xv = 1; yv = 0;
+                break;
+            case 40:
+                xv = 0; yv = 1;
+                break;
+        }
+    }
+</script>
