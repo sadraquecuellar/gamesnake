@@ -12,11 +12,30 @@
         div#placar {
             background-color: rgb(10, 86, 148);
             width: 400px;
-            height: 50px;
+            height: 70px;
             margin-bottom: 10px;
             text-align: center;
 
         }
+        body{
+            display:flex;
+            flex-flow:column;
+            align-items: center;
+            justify-content: center;
+        }
+        div#msg{
+            background-color: #ff3333;
+            border-radius: 15px;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        div#msg:hover{
+            opacity:1;
+            background-color: green;
+        }
+
+        
     </style>
 </head>
  
@@ -27,7 +46,9 @@
     <div id="game">
         <canvas id="gc" width="400" height="400"></canvas>
     </div>
-
+    <div id="msg">
+        <h1>Prof, em passa de prog web, pfv.</h1>
+    </div>
 </body>
 
 </html>
